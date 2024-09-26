@@ -1,9 +1,7 @@
 package controller
 
 import (
-	"encoding/json"
-	"net/http"
-
+	"github.com/gin-gonic/gin"
 	"github.com/rikughi/go-quick-start/internal/service"
 )
 
@@ -17,15 +15,8 @@ func NewHelloController(service *service.HelloService) *HelloController {
 	}
 }
 
-func (h *HelloController) Hello(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-
-	if err := json.NewEncoder(w).Encode(map[string]string{
-		"message": "Hello World",
-	}); err != nil {
-		json.NewEncoder(w).Encode(map[string]string{
-			"message": "Error",
-		})
-	}
+func (h *HelloController) Hello(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": h.Service.Hello(),
+	})
 }
