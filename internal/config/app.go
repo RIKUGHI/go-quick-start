@@ -5,12 +5,14 @@ import (
 	"github.com/rikughi/go-quick-start/internal/delivery/http/controller"
 	"github.com/rikughi/go-quick-start/internal/delivery/http/router"
 	"github.com/rikughi/go-quick-start/internal/service"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
 type App struct {
 	Config *viper.Viper
 	App    *gin.Engine
+	Log    *logrus.Logger
 }
 
 func Bootstrap(app *App) {
@@ -18,7 +20,7 @@ func Bootstrap(app *App) {
 	helloService := service.NewHelloService()
 
 	// setup controller
-	helloController := controller.NewHelloController(helloService)
+	helloController := controller.NewHelloController(helloService, app.Log)
 
 	router := router.Router{
 		App:             app.App,

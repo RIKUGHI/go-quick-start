@@ -11,5 +11,5 @@ type Router struct {
 }
 
 func (r *Router) Setup() {
-	r.App.GET("/", r.HelloController.Hello)
+	r.App.GET("/hello", r.HelloController.Hello)
 }
